@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<br>
+<ul class="nav nav-pills" id = "index">
+  <li role="presentation"><a href="{% url 'main:index' %}">Profile</a></li>
+  <li role="presentation"><a href="{% url 'main:experience' %}">Experience</a></li>
+  <li role="presentation"><a href="{% url 'main:like' %}">What I like</a></li>
+  <li role="presentation"  class="active"><a href="{% url 'main:posts' %}">Post</a></li>
+  
+</ul>
+
+
+
+{% if user.is_authenticated %}
+
+    <h1>글 목록</h1>
+    
+    <div>
+        {% for post in posts %}
+        <div>
+          <h3>{{post.title}}</h3>
+
+          {% if post.writer %}
+          {% if 'user' in post.writer.username and post.writer.username != 'user' %}
+          작성자 : <a href="{% url 'users:mypage' post.writer.id %}">{{ post.writer.last_name }} {{ post.writer.first_name }}</a>
+          {% else %}
+          작성자 : <a href="{% url 'users:mypage' post.writer.id %}">{{ post.writer }}</a>
+          {% endif %}
+          {% else %}
+          작성자 : 알 수 없음
+          {% endif %}<br>
+
+          {{post.summary}}<br>
+          <a href = "{%url 'main:detail' post.id %}">..자세히</a><hr>
+        </div>
+        {%endfor%}  
+      </div>
+
+      <h3><a href="{%url 'main:new'%}">글쓰기</a></h3>
+
+      {% else %}
+      <h3> 로그인 후 이용 가능</h3>
+      <a href = "{% url 'account_login' %}" class = "btn btn-warning">로그인</a>
+      <a href = "{% url 'account_signup' %}" class = "btn btn-warning">회원가입</a>
+      {% endif %}
+{% endblock %}

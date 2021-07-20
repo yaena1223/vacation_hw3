@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %} 
+
+{% block content %} 
+<ul class="nav nav-pills" id = "index">
+    <li role="presentation"><a href="{% url 'main:index' %}">Profile</a></li>
+    <li role="presentation"><a href="{% url 'main:experience' %}">Experience</a></li>
+    <li role="presentation"><a href="{% url 'main:like' %}">What I like</a></li>
+    <li role="presentation"  class="active"><a href="{% url 'main:posts' %}">Post</a></li>
+    
+  </ul>
+  
+<div class = "container">
+    <h1>글 수정하기</h1>
+    <form action="{% url 'main:update' post.id %}" method="post">
+        {%csrf_token%} 
+        <p>제목 : <input type="text" name="title" value = "{{post.title}}"></p>
+        <p>사진 : <input type = "file" name = "image" value ="{{post.image}}"></p> 
+        <p>내용 : <textarea type="text" name="body" id="" cols="30" rows="10">{{post.body}}</textarea></p>
+		<button type="submit">제출</button>
+    </form>
+
+</div>
+
+{% endblock %}

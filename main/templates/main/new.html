@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %} 
+
+<ul class="nav nav-pills" id = "index">
+    <li role="presentation"><a href="{% url 'main:index' %}">Profile</a></li>
+    <li role="presentation"><a href="{% url 'main:experience' %}">Experience</a></li>
+    <li role="presentation"><a href="{% url 'main:like' %}">What I like</a></li>
+    <li role="presentation"  class="active"><a href="{% url 'main:posts' %}">Post</a></li>
+    
+  </ul>
+  
+
+
+<form action ="{%url 'main:create'%}" method="post" enctype = "multipart/form-data">
+
+    {%csrf_token%}
+    <p>제목 : <input type = "text" name = "title"></p>
+    <p>사진 : <input type = "file" name = "image"></p>
+    <p>내용 : <textarea type = "text" name = "body" id = "" cols = "30" rows = "10"></textarea></p>
+    <button type = "submit">제출</button>
+
+</form>
+{% endblock %}

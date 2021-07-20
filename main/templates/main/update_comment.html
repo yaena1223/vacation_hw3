@@ -1,0 +1,14 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+
+  <form method="POST" >
+
+    {% csrf_token %}
+    <textarea name="content" placeholder="댓글 내용 입력">{{comment.content}}</textarea>
+    <hr>
+    <div class="contact-submit input">
+      <input type="submit"  value="수정" />
+    </div>
+  </form>
+
+{% endblock %}

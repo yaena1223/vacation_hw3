@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<ul class="nav nav-pills" id = "index">
+    <li role="presentation"><a href="{% url 'main:index' %}">Profile</a></li>
+    <li role="presentation"><a href="{% url 'main:experience' %}">Experience</a></li>
+    <li role="presentation"><a href="{% url 'main:like' %}">What I like</a></li>
+    <li role="presentation"  class="active"><a href="{% url 'main:posts' %}">Post</a></li>
+    
+  </ul>
+  
+<h1>{{post.title}}</h1>
+작성자 : {{post.writer}}
+날짜 : {{post.pub_date}}
+<hr>
+<p><img src = "{{ post.image.url }}" alt = "사진"></p>
+<p>{{post.body}}</p>
+<a href="{%url 'main:edit' post.id%}">수정하기</a>
+<a href = "{% url 'main:delete' post.id %}">삭제하기 </a>
+
+<div>
+  <form action="{%url 'main:create_comment' post.id %}" method="POST">
+    {%csrf_token%} 
+    <textarea name="content" placeholder="댓글 내용 입력"></textarea>
+    <input type = "submit" value="확인">
+  </form>
+</div>
+
+<div>
+  {% for comment in comments %} 
+  <div>
+    작성자 : {{comment.writer}}<br>
+    {{comment.content}}<br>
+    <a href="{%url 'main:update_comment' post.pk comment.pk%}">수정하기</a>
+    <a href = "{% url 'main:delete_comment' post.pk comment.pk %}">삭제하기 </a>
+    <br><hr>
+  </div>
+  {%endfor%}
+</div>
+{% endblock %}

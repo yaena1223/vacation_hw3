@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<br>
+<ul class="nav nav-pills" id = "index">
+    <li role="presentation"><a href="{% url 'main:index' %}">Profile</a></li>
+    <li role="presentation"><a href="{% url 'main:experience' %}">Experience</a></li>
+    <li role="presentation"><a href="{% url 'main:like' %}">What I like</a></li>
+    <li role="presentation"  class="active"><a href="{% url 'main:posts' %}">Post</a></li>
+    
+  </ul>
+<div class="container">
+    <h1>
+    {% if 'user' in user.username and user.username != 'user' %}
+        {{ user.last_name }} {{ user.first_name }}
+    {% else %}
+        {{ user.username }}
+    {% endif %}
+    </h1>
+
+    {% if request.user != user %}
+        {% if request.user.profile in user.profile.followers.all %}
+            <a href="{%url 'users:follow' user.id %}"><button type="button" class="btn btn-outline-info">언팔로우</button></a>
+        {% else %}
+        <a href="{%url 'users:follow' user.id %}"><button type="button" class="btn btn-info">팔로우</button></a>
+        {% endif %}
+    {% endif %}
+    </h1>
+    <div class="container">
+        <h3>팔로워{{user.profile.followers.count}}명</h3>
+        {%for follower in user.profile.followers.all %}
+            <a href="{% url 'users:mypage' follower.user.id %}">{{follower.user.username}}</a>
+        {% endfor %}
+        <h3>팔로잉{{user.profile.followings.count}}명</h3>
+        {% for following in user.profile.followings.all %}
+            <a href="{%url 'users:mypage' following.user.id%}">{{following.user.username}}</a>
+        {% endfor %}
+        </div>
+    <div>
+        {% for post in posts %}
+            <a href="{%url 'main:detail' post.id%}">{{post.title}}</a><hr>
+        {%endfor%}
+    </div>
+</div>
+{% endblock %}

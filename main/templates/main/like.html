@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+  <br>
+  <ul class="nav nav-pills" id = "index">
+    <li role="presentation"><a href="{% url 'main:index' %}">Profile</a></li>
+    <li role="presentation"><a href="{% url 'main:experience' %}">Experience</a></li>
+    <li role="presentation"  class="active"><a href="{% url 'main:like' %}">What I like</a></li>
+    <li role="presentation"><a href="{% url 'main:posts' %}">Post</a></li>
+  </ul>
+
+  <style>
+      h3{font-family: 'Spinnaker', sans-serif ; color : orange; font-size : 30px;}
+    </style>
+  <h3>Coding</h3>
+  <br>
+  <h3> Taking Photos</h3>
+  <img src = "{%static 'img/캡쳐.jpg' %}"/>
+  <h3> Drawing </h3>
+  <img src = "{%static 'img/KakaoTalk_20210406_041609108.jpg' %}" height = "80%" width="80%"/>
+  <br> <br>
+
+  
+
+
+{% endblock %}

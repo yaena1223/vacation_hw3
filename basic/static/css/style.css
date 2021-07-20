@@ -1,0 +1,39 @@
+#name1{
+    font-family: 'Coda', cursive;
+    color : green;
+    font-size : 50px;
+    font-style : bold;
+    text-indent: 20px;
+}
+
+#lion{
+    font-family: 'Kiwi Maru', serif;
+    text-indent: 25px;
+
+}
+
+#index{
+    font-family: 'Gamja Flower', cursive;
+    font-style : bold;
+    font-size : 30px;
+}
+
+.title{
+    background-color: lightgrey;
+}
+
+#img1,#img2{
+    float:left;
+    }
+
+.info{
+    float:left;
+    margin-left : 50px;
+}
+
+.information{
+    font-family: 'Poor Story', cursive;
+    font-size : 20px;
+    
+}
+
