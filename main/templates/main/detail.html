@@ -8,7 +8,7 @@
     <li role="presentation"  class="active"><a href="{% url 'main:posts' %}">Post</a></li>
     
   </ul>
-  
+
 <h1>{{post.title}}</h1>
 작성자 : {{post.writer}}
 날짜 : {{post.pub_date}}
@@ -37,4 +37,141 @@
   </div>
   {%endfor%}
 </div>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+
+<span href="#" class="like" name ="{{post.id}}" value="Like"> 
+
+
+  {% if user in post.like_user_set.all %}
+      <div class="alt-service-icon">
+          <i class="fas fa-heart" id ="like-icon" style="color:red;"></i>
+      </div> 
+    
+  {% else %}
+
+      <div class="alt-service-icon">
+          <i class="far fa-heart" id ="like-icon" style="color:red;"></i> 
+      </div>
+
+  {% endif %}
+
+  <span id="like_count-{{ post.id }}" class="alt-services-title font-alt"> 
+      좋아요 
+      {% if post.like_count == 0 %} 
+          0개 
+      {% else %}
+          {{ post.like_count }}개
+      {% endif %}
+  </span>
+</span>
+
+<span href="#" class="dislike" name ="{{post.id}}" value="Dislike"> 
+
+
+  {% if user in post.dislike_user_set.all %}
+      <div class="alt-service-icon">
+          <i class="far fa-thumbs-down" id ="dislike-icon" style="color:blue;"></i>
+       </div> 
+
+  {% else %}
+
+      <div class="alt-service-icon">
+           <i class="far fa-thumbs-down" id ="dislike-icon" style="color:blue;"></i> 
+      </div>
+
+   {% endif %}
+
+   <span id="dislike_count-{{ post.id }}" class="alt-services-title font-alt"> 
+      싫어요 
+      {% if post.dislike_count == 0 %} 
+          0개 
+      {% else %}
+          {{ post.dislike_count }}개
+      {% endif %}
+   </span>
+</span>
+
+
+
+
+
+
+<script>
+  $(".like").click(function(){
+      var pk = $(this).attr('name')
+      $.ajax({
+          url : "{% url 'main:like_toggle' post.pk %}",
+          data : {'pk':pk,'csrfmiddlewaretoken': '{{ csrf_token }}'},
+          type:"POST",
+          dataType:"json",
+          
+          success: function(response){
+
+              if (response.like_count==null){
+                  alert("로그인이 필요합니다.");
+                  window.location.replace('/accounts/login/')
+              }
+              else{
+                  if (response.result == "like"){
+                      $('#like-icon').removeClass();
+                      $('#like-icon').addClass('fas fa-heart');
+                  }
+                  else{
+                      $('#like-icon').removeClass();
+                      $('#like-icon').addClass('far fa-heart');
+                  }
+      
+                  $('#like_count-{{ post.id }}').html('좋아요 '+response.like_count+'개');
+
+
+              }
+          },
+
+          error: function(request, status, error){
+              alert("로그인이 필요합니다.")
+             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+         },
+       });
+  })
+
+  
+    $(".dislike").click(function(){
+        var pk = $(this).attr('name')
+        $.ajax({
+            url : "{% url 'main:dislike_toggle' post.pk %}",
+            data : {'pk':pk,'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            type:"POST",
+            dataType:"json",
+            
+            success: function(response){
+
+                if (response.dislike_count==null){
+                    alert("로그인이 필요합니다.");
+                    window.location.replace('/accounts/login/')
+                }
+                else{
+                    if (response.result == "dislike"){
+                        $('#dislike-icon').removeClass();
+                        $('#dislike-icon').addClass('fas fa-thumbs-down');
+                    }
+                    else{
+                        $('#dislike-icon').removeClass();
+                        $('#dislike-icon').addClass('far fa-thumbs-down');
+                    }
+      
+
+                  $('#dislike_count-{{ post.id }}').html('싫어요 '+response.dislike_count+'개');
+
+                }
+            },
+
+            error: function(request, status, error){
+                alert("로그인이 필요합니다.")
+	            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+        	},
+         });
+    })
+
+</script>
 {% endblock %}

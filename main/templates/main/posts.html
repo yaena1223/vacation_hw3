@@ -17,7 +17,7 @@
 
 {% if user.is_authenticated %}
 
-    <h1>글 목록</h1>
+    <h1>글 목록 </h1>
     
     <div>
         {% for post in posts %}
@@ -47,4 +47,6 @@
       <a href = "{% url 'account_login' %}" class = "btn btn-warning">로그인</a>
       <a href = "{% url 'account_signup' %}" class = "btn btn-warning">회원가입</a>
       {% endif %}
+
+      
 {% endblock %}
